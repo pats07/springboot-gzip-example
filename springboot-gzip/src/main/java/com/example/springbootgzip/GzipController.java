@@ -39,7 +39,9 @@ public class GzipController {
 		return outStr.toString();
 	
 	}
-	
+	/**
+	Added another version of above method.
+	*/
 	@PostMapping("/gzip-http-request")
 	public String decompressGZipDataUsingHttpRequest(HttpServletRequest request) throws IOException {
 
