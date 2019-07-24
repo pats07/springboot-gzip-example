@@ -9,6 +9,8 @@ import java.io.InputStreamReader;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,40 +20,41 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GzipController {
 
+	Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@PostMapping("/gzip-request")
-	public String decompressGZipData(@RequestBody byte[] gZipData) {
+	public String decompressGZipData(@RequestBody byte[] gZipData) throws IOException {
 
-		Logger logger = LoggerFactory.getLogger(this.getClass());
-		
-		GZIPInputStream gzis = null;
-		StringBuffer outStr = new StringBuffer();
-		
-		try {
-
-			gzis = new GZIPInputStream(new ByteArrayInputStream(gZipData));
-			BufferedReader bf = new BufferedReader(new InputStreamReader(gzis, "UTF-8"));
-			String line;
-			while ((line = bf.readLine()) != null) {
-				outStr.append(line);
-			}
-			
-			logger.info("Output : {}",outStr.toString());
-
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-		} finally {
-
-			try {
-				if (null != gzis) {
-					gzis.close();
+	
+		StringBuilder outStr = new StringBuilder();
+		try (GZIPInputStream gzis = new GZIPInputStream(new ByteArrayInputStream(gZipData))) {
+			try (BufferedReader bf = new BufferedReader(new InputStreamReader(gzis, "UTF-8"))) {
+				String line;
+				while ((line = bf.readLine()) != null) {
+					outStr.append(line);
 				}
-			} catch (IOException e) {
-				logger.error(e.getMessage());
+				logger.info("Output : {}", outStr.toString());
 			}
-
 		}
-
 		return outStr.toString();
+	
+	}
+	
+	@PostMapping("/gzip-http-request")
+	public String decompressGZipDataUsingHttpRequest(HttpServletRequest request) throws IOException {
+
+		StringBuilder outStr = new StringBuilder();
+		try (GZIPInputStream gzis = new GZIPInputStream(request.getInputStream())) {
+			try (BufferedReader bf = new BufferedReader(new InputStreamReader(gzis, "UTF-8"))) {
+				String line;
+				while ((line = bf.readLine()) != null) {
+					outStr.append(line);
+				}
+				logger.info("Output : {}", outStr.toString());
+			}
+		}
+		return outStr.toString();
+	
 	}
 
 }
