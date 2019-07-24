@@ -1,0 +1,4 @@
+1. Use HTTP Post request.
+2. Create a gZip file using any online tool.
+3. Choose the binary option radio button in the body and add the gzip file.
+4. Fire the POSt request.
