@@ -13,11 +13,11 @@ import java.util.zip.GZIPOutputStream;
 
 public class GZipFile {
 
-	private static final String OUTPUT_GZIP_FILE = "E:\\workspace\\gzip\\file1.gz";
-	private static final String INPUT_TEXT_FILE = "E:\\workspace\\gzip\\file1.txt";
+	private static final String OUTPUT_GZIP_FILE = "C:\\xxx\\gzip\\file1.gz";
+	private static final String INPUT_TEXT_FILE = "C:\\xxx\\gzip\\file1.txt";
 
-	private static final String OUTPUT_TEXT_FILE = "E:\\workspace\\gzip\\file.txt";
-	private static final String INPUT_GZIP_FILE = "E:\\workspace\\gzip\\file1.gz";
+	private static final String OUTPUT_TEXT_FILE = "C:\\xxx\\gzip\\file.txt";
+	private static final String INPUT_GZIP_FILE = "C:\\xxx\\gzip\\file1.gz";
 
 	public static void main(String[] args) throws UnsupportedEncodingException, IOException {
 		GZipFile gZip = new GZipFile();
